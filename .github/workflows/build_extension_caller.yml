@@ -10,6 +10,6 @@ on:
 
 jobs:
   build_extensions:
-    uses: ./.github/workflows/build_extension.yml@main
+    uses: ./.github/workflows/build_extension.yml
     with:
       extension: ${{ inputs.extension }}

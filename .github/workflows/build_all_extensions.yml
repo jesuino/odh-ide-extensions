@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build_extensions:
-    uses: ./.github/workflows/build_extension.yml@main
+    uses: ./.github/workflows/build_extension.yml
     with:
       extension: ${{ matrix.extension }}
     strategy:
