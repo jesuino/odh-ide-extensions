@@ -127,7 +127,7 @@ jobs:
           YARN_ENABLE_IMMUTABLE_INSTALLS: 0
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
         run: |
-          rm -f ../../yarn.lock ../../package.json
+          touch yarn.lock
           jlpm install
 
       - name: Install browser
