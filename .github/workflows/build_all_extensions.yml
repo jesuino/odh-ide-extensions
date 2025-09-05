@@ -1,0 +1,26 @@
+name: Build all Extensions
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - "*"
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_extensions:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        extension:
+          - odh-jupyter-trash-cleanup
+    steps:
+      - name: Build Extension
+        id: build_extension
+        uses: ./.github/workflows/build_extension.yml@main
+        with:
+          extension: "${{ matrix.extension }}"
