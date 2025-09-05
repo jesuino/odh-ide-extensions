@@ -1,7 +1,7 @@
 name: Build and test Extension
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       extension:
         description: "The extension name"

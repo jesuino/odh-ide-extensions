@@ -1,0 +1,19 @@
+name: Build an extension defined by the user
+
+on:
+  workflow_dispatch:
+    inputs:
+      extension:
+        description: "The extension name"
+        required: true
+        type: string
+
+jobs:
+  build_extensions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Extension
+        id: build_extension
+        uses: ./.github/workflows/build_extension.yml@main
+        with:
+          extension: ${{ inputs.extension }}
