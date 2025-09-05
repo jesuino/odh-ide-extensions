@@ -12,15 +12,11 @@ concurrency:
 
 jobs:
   build_extensions:
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/build_extension.yml@main
+    with:
+      extension: ${{ matrix.extension }}
     strategy:
       fail-fast: true
       matrix:
         extension:
           - odh-jupyter-trash-cleanup
-    steps:
-      - name: Build Extension
-        id: build_extension
-        uses: ./.github/workflows/build_extension.yml@main
-        with:
-          extension: ${{ matrix.extension }}
