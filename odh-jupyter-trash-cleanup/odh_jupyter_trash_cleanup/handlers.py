@@ -1,15 +1,21 @@
-"""Handler for Trash API methods"""
+"""Handler for Trash API methods."""
+
 from jupyter_server.base.handlers import APIHandler
 from jupyter_server.utils import url_path_join
-import tornado
+
 from odh_jupyter_trash_cleanup.trash import Trash
 
+import tornado
+
+
 class RouteHandler(APIHandler):
+    """Backend handlers."""
 
     trash = Trash()
 
     @tornado.web.authenticated
     async def post(self):
+        """Handle HTTP POST request to the Trash handler."""
         try:
             deleted = await self.trash.empty_trash()
             self.set_header("Content-Type", "application/json")
@@ -23,6 +29,7 @@ class RouteHandler(APIHandler):
 
 
 def setup_handlers(web_app):
+    """Do the setup for handlers."""
     host_pattern = ".*$"
 
     base_url = web_app.settings["base_url"]

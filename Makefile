@@ -1,5 +1,6 @@
 PYTHON ?= python3
 BLACK_CMD := $(PYTHON) -m black --check --diff --color .
+ESLINT_USE_FLAT_CONFIG=false
 
 require-extension:
 	@if [ -z "$(EXTENSION)" ]; then echo "EXTENSION is required (e.g., make EXTENSION=odh-jupyter-trash-cleanup lint-ui)"; exit 1; fi
@@ -8,7 +9,7 @@ lint-dependencies:
 	@$(PYTHON) -m pip install -q -r lint_requirements.txt
 
 lint-python: require-extension lint-dependencies
-	(cd $(EXTENSION) && $(PYTHON) -m flake8 .)
+	(cd $(EXTENSION) && $(PYTHON) -m flake8 . --exclude node_modules)
 	@echo $(BLACK_CMD)
 	@(cd $(EXTENSION) && $(BLACK_CMD)) || (echo "Black formatting encountered issues. Use 'make black-format' to fix."; exit 1)
 

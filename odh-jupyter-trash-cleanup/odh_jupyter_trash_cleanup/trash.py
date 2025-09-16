@@ -1,11 +1,11 @@
-"""Module for trash functions"""
-from pathlib import Path
+"""Module for trash functions."""
 
-import shutil
-import os
 import asyncio
-import subprocess
 import logging
+import os
+import shutil
+import subprocess
+from pathlib import Path
 
 # For Trash cleaning using gio
 GIO = "gio"
@@ -18,21 +18,21 @@ TRASH_DIR = (Path(XDG_DATA_HOME) if XDG_DATA_HOME else Path.home() / ".local" / 
 
 logger = logging.getLogger(__name__)
 
+
 class Trash:
-    """Trash functions"""
+    """Trash functions."""
 
     async def empty_trash(self) -> int:
-        """Remove all items from Trash, permanently deleting them"""
+        """Remove all items from Trash, permanently deleting them."""
         logger.warning("Removing files from the trash")
         deleted = 0
         if shutil.which(GIO) is not None:
-            list_files_proc = subprocess.run(LIST_TRASH_FILES_COMMAND,
-                                            capture_output=True,
-                                            check=False,
-                                            timeout=10)
-            deleted = len(list_files_proc.stdout.splitlines()) if list_files_proc.stdout else 0
+            list_files_proc = subprocess.run(LIST_TRASH_FILES_COMMAND, capture_output=True, check=False, timeout=10)
+            deleted = 0
+            if list_files_proc.stdout:
+                deleted = len(list_files_proc.stdout.splitlines())
             subprocess.call(EMPTY_TRASH_COMMAND)
-        else:            
+        else:
             deleted += sum(
                 await asyncio.gather(
                     asyncio.to_thread(self._clear_dir, TRASH_DIR / "files"),
